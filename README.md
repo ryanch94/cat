@@ -1,4 +1,8 @@
 # cat
+A scrappy reimplementation of the `cat` *nix utility in C. For education purposes only, not intended for production use.
+
+## Building
+Simple run `make` from the project directory, run `make debug` for a gdb debug build
 
 ## Current status
 - [x] Print a single file passed to the program
