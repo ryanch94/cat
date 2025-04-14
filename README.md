@@ -12,9 +12,9 @@ Simple run `make` from the project directory, run `make debug` for a gdb debug b
 - [ ] `-A` / `--show-all` params implemented
 - [ ] `-b` / `--number-nonblank` params implemented
 - [ ] `-e` param implemented
-- [ ] `-E` / `--show-ends` params implemented
+- [x] `-E` / `--show-ends` params implemented
 - [ ] `-s` `--squeeze-blank` params implemented
 - [ ] `-t` param implemented
-- [ ] `-T` / `--show-tabs` params implemented
+- [x] `-T` / `--show-tabs` params implemented
 - [ ] `-v` / `--show-nonprinting` params implemented
 - [ ] Ability to concatenate multiple files passed to program

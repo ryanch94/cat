@@ -1,10 +1,10 @@
 cat:
-	mkdir build
-	gcc cat.c -o build/cat
+	mkdir -p build
+	gcc cat.c -o build/cat -Wall
 
 debug:
-	mkdir build
-	gcc cat.c -o build/cat -ggdb
+	mkdir -p build
+	gcc cat.c -o build/cat -ggdb -Wall
 
 clean:
 	rm -r build

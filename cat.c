@@ -7,6 +7,8 @@ char const *version = "0.0.1";
 static bool show_help = false;
 static bool number = false;
 static bool show_ver = false;
+static bool show_ends = false;
+static bool show_tabs = false;
 static int cur_line = 1;
 
 void print_version_info()
@@ -31,6 +33,16 @@ void read_from_file(char *input_file)
     while (c != EOF)
     {
         char ch = (char)c;
+
+        if (ch == '\n' && show_ends)
+            printf("$");
+
+        if (ch == '\t' && show_tabs)
+        {
+            printf("^");
+            ch = 'I';
+        }
+
         printf("%c", ch);
         c = fgetc(fd);
         if (number && ch == '\n' && c != EOF)
@@ -54,6 +66,10 @@ void parse_args(int argc, char **argv)
             number = true;
         else if (strcmp(arg, "--version") == 0)
             show_ver = true;
+        else if (strcmp(arg, "-E") == 0 || strcmp(arg, "--show-ends") == 0)
+            show_ends = true;
+        else if (strcmp(arg, "-T") == 0 || strcmp(arg, "--show-tabs") == 0)
+            show_tabs = true;
     }
 }
 
@@ -65,11 +81,11 @@ With no FILE, or when FILE is -, read standard input. // TODO\n\n\
 -A, --show-all           equivalent to -vET // TODO\n\
 -b, --number-nonblank    number nonempty outputm lines, overrides -n // TODO\n\
 -e                       equivalent to -vE // TODO\n\
--E, --show-ends          display $ at end of each line // TODO\n\
+-E, --show-ends          display $ at end of each line\n\
 -n, --number             number all output lines\n\
 -s, --squeeze-blank      suppress repeated empty output lines // TODO\n\
 -t                       equivalent to -vT // TODO\n\
--T, --show-tabs          display TAB characters as ^I // TODO\n\
+-T, --show-tabs          display TAB characters as ^I\n\
 -u                       (ignored)\n\
 -v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB // TODO\n\
 --help        display this help and exit\n\
