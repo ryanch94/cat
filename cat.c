@@ -89,7 +89,7 @@ void print_help()
 Concatenate FILE(s) to standard output.\n\n\
 With no FILE, or when FILE is -, read standard input. // TODO\n\n\
 -A, --show-all           equivalent to -vET // TODO\n\
--b, --number-nonblank    number nonempty outputm lines, overrides -n // TODO\n\
+-b, --number-nonblank    number nonempty outputm lines, overrides -n\n\
 -e                       equivalent to -vE // TODO\n\
 -E, --show-ends          display $ at end of each line\n\
 -n, --number             number all output lines\n\
@@ -99,7 +99,7 @@ With no FILE, or when FILE is -, read standard input. // TODO\n\n\
 -u                       (ignored)\n\
 -v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB // TODO\n\
 --help        display this help and exit\n\
---version     output version information and exit // TODO\n");
+--version     output version information and exit\n");
 }
 
 int main(int argc, char** argv)
