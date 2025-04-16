@@ -10,7 +10,7 @@ Simple run `make` from the project directory, run `make debug` for a gdb debug b
 - [x] Print the version info
 - [x] Print line numbers when `-n` or `--number` param passed
 - [ ] `-A` / `--show-all` params implemented
-- [ ] `-b` / `--number-nonblank` params implemented
+- [x] `-b` / `--number-nonblank` params implemented
 - [ ] `-e` param implemented
 - [x] `-E` / `--show-ends` params implemented
 - [ ] `-s` `--squeeze-blank` params implemented

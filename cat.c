@@ -9,6 +9,7 @@ static bool number = false;
 static bool show_ver = false;
 static bool show_ends = false;
 static bool show_tabs = false;
+static bool number_nonblank = false;
 static int cur_line = 1;
 
 void print_version_info()
@@ -27,7 +28,7 @@ void read_from_file(char *input_file)
     int c = fgetc(fd);
 
 
-    if (number)
+    if (number || number_nonblank)
         print_next_line_no();
 
     while (c != EOF)
@@ -45,8 +46,12 @@ void read_from_file(char *input_file)
 
         printf("%c", ch);
         c = fgetc(fd);
-        if (number && ch == '\n' && c != EOF)
-            print_next_line_no();
+        if ((number || number_nonblank) && ch == '\n' && c != EOF)
+        {
+            if (number_nonblank && c == '\n') {}
+            else
+                print_next_line_no();
+        }
     }
 
     fclose(fd);
@@ -70,6 +75,8 @@ void parse_args(int argc, char **argv)
             show_ends = true;
         else if (strcmp(arg, "-T") == 0 || strcmp(arg, "--show-tabs") == 0)
             show_tabs = true;
+        else if (strcmp(arg, "-b") == 0 || strcmp(arg, "--number-nonblank") == 0)
+            number_nonblank = true;
     }
 }
 
