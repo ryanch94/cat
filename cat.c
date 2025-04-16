@@ -11,6 +11,7 @@ static bool show_ends = false;
 static bool show_tabs = false;
 static bool number_nonblank = false;
 static int cur_line = 1;
+static char* input_file_name;
 
 void print_version_info()
 {
@@ -77,6 +78,8 @@ void parse_args(int argc, char **argv)
             show_tabs = true;
         else if (strcmp(arg, "-b") == 0 || strcmp(arg, "--number-nonblank") == 0)
             number_nonblank = true;
+        else // assume a file name
+            input_file_name = arg;
     }
 }
 
@@ -99,9 +102,8 @@ With no FILE, or when FILE is -, read standard input. // TODO\n\n\
 --version     output version information and exit // TODO\n");
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    char *input_file = argv[1];
     parse_args(argc, argv);
 
     if (show_help)
@@ -109,7 +111,7 @@ int main(int argc, char **argv)
     else if (show_ver)
         print_version_info();
     else
-        read_from_file(input_file);
+        read_from_file(input_file_name);
 
     return 0;
 }
