@@ -9,12 +9,13 @@ Simple run `make` from the project directory, run `make debug` for a gdb debug b
 - [x] Print the help info
 - [x] Print the version info
 - [x] Print line numbers when `-n` or `--number` param passed
-- [ ] `-A` / `--show-all` params implemented
+- [x] `-A` / `--show-all` params implemented
 - [x] `-b` / `--number-nonblank` params implemented
-- [ ] `-e` param implemented
+- [x] `-e` param implemented
 - [x] `-E` / `--show-ends` params implemented
 - [ ] `-s` `--squeeze-blank` params implemented
-- [ ] `-t` param implemented
+- [x] `-t` param implemented
 - [x] `-T` / `--show-tabs` params implemented
-- [ ] `-v` / `--show-nonprinting` params implemented
+- [x] `-v` / `--show-nonprinting` params implemented
 - [ ] Ability to concatenate multiple files passed to program
+- [ ] Ability to pass stdin `-` to the program

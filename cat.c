@@ -10,6 +10,7 @@ static bool show_ver = false;
 static bool show_ends = false;
 static bool show_tabs = false;
 static bool number_nonblank = false;
+static bool show_nonprinting = false;
 static int cur_line = 1;
 static char* input_file_name;
 
@@ -34,7 +35,7 @@ void read_from_file(char *input_file)
 
     while (c != EOF)
     {
-        char ch = (char)c;
+        unsigned char ch = (unsigned char)c;
 
         if (ch == '\n' && show_ends)
             printf("$");
@@ -45,7 +46,42 @@ void read_from_file(char *input_file)
             ch = 'I';
         }
 
-        printf("%c", ch);
+        if (show_nonprinting)
+        {
+            if (ch >= 32)
+            {
+                if (ch == 127)
+                    printf("^?");
+                else if (ch > 127)
+                {
+                    printf("M-");
+                    if (ch >= 128 + 32)
+                    {
+                        if (ch < 128 + 127)
+                            printf("%c", ch - 128);
+                        else
+                        {
+                            printf("^?");
+                        }
+                    }
+                    else
+                    {
+                        printf("^%c", ch - 128 + 64);
+                    }
+                }
+                else
+                    printf("%c", ch);
+            }
+            else if (ch == '\t' && !show_tabs)
+                printf("%c", ch);
+            else if (ch == '\n')
+                printf("%c", ch);
+            else
+                printf("^%c", ch + 64);
+        }
+        else
+            printf("%c", ch);
+            
         c = fgetc(fd);
         if ((number || number_nonblank) && ch == '\n' && c != EOF)
         {
@@ -78,6 +114,24 @@ void parse_args(int argc, char **argv)
             show_tabs = true;
         else if (strcmp(arg, "-b") == 0 || strcmp(arg, "--number-nonblank") == 0)
             number_nonblank = true;
+        else if (strcmp(arg, "-v") == 0 || strcmp(arg, "--show-nonprinting") == 0)
+            show_nonprinting = true;
+        else if (strcmp(arg, "-A") == 0 || strcmp(arg, "--show-all") == 0)
+        {
+            show_nonprinting = true;
+            show_ends = true;
+            show_tabs = true;
+        }
+        else if (strcmp(arg, "-e") == 0)
+        {
+            show_nonprinting = true;
+            show_ends = true;
+        }
+        else if (strcmp(arg, "-t") == 0)
+        {
+            show_nonprinting = true;
+            show_tabs = true;
+        }
         else // assume a file name
             input_file_name = arg;
     }
@@ -88,16 +142,16 @@ void print_help()
     printf("Usage: cat [OPTION]... [FILE]...\n\
 Concatenate FILE(s) to standard output.\n\n\
 With no FILE, or when FILE is -, read standard input. // TODO\n\n\
--A, --show-all           equivalent to -vET // TODO\n\
+-A, --show-all           equivalent to -vET\n\
 -b, --number-nonblank    number nonempty outputm lines, overrides -n\n\
--e                       equivalent to -vE // TODO\n\
+-e                       equivalent to -vE\n\
 -E, --show-ends          display $ at end of each line\n\
 -n, --number             number all output lines\n\
 -s, --squeeze-blank      suppress repeated empty output lines // TODO\n\
--t                       equivalent to -vT // TODO\n\
+-t                       equivalent to -vT\n\
 -T, --show-tabs          display TAB characters as ^I\n\
 -u                       (ignored)\n\
--v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB // TODO\n\
+-v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB\n\
 --help        display this help and exit\n\
 --version     output version information and exit\n");
 }
