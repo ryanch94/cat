@@ -13,7 +13,7 @@ Simple run `make` from the project directory, run `make debug` for a gdb debug b
 - [x] `-b` / `--number-nonblank` params implemented
 - [x] `-e` param implemented
 - [x] `-E` / `--show-ends` params implemented
-- [ ] `-s` `--squeeze-blank` params implemented
+- [x] `-s` `--squeeze-blank` params implemented
 - [x] `-t` param implemented
 - [x] `-T` / `--show-tabs` params implemented
 - [x] `-v` / `--show-nonprinting` params implemented

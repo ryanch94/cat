@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 char const *version = "0.0.1";
 
@@ -11,6 +12,7 @@ static bool show_ends = false;
 static bool show_tabs = false;
 static bool number_nonblank = false;
 static bool show_nonprinting = false;
+static bool squeeze_blank = false;
 static int cur_line = 1;
 static char* input_file_name;
 
@@ -27,7 +29,15 @@ void print_next_line_no()
 void read_from_file(char *input_file)
 {
     FILE *fd = fopen(input_file, "r");
+
+    if (fd == NULL)
+    {
+        printf("cat: %s: No such file or directory\n", input_file_name);
+        return;
+    }
+
     int c = fgetc(fd);
+    int newlines = 0;
 
 
     if (number || number_nonblank)
@@ -37,8 +47,19 @@ void read_from_file(char *input_file)
     {
         unsigned char ch = (unsigned char)c;
 
-        if (ch == '\n' && show_ends)
-            printf("$");
+        if (ch == '\n')
+        {
+            if (newlines++ >= 2 && squeeze_blank)
+            {
+                newlines = 2;
+                c = fgetc(fd);
+                continue;
+            }
+            if (show_ends)
+                printf("$");
+        }
+        else
+            newlines = 0;
 
         if (ch == '\t' && show_tabs)
         {
@@ -132,8 +153,19 @@ void parse_args(int argc, char **argv)
             show_nonprinting = true;
             show_tabs = true;
         }
-        else // assume a file name
-            input_file_name = arg;
+        else if (strcmp(arg, "-s") == 0 || strcmp(arg, "--squeeze-blank") == 0)
+            squeeze_blank = true;
+        else if (*arg == '-')
+        {
+            printf("cat: invalid option -- '%c'\n", *++arg);
+            printf("Try 'cat --help' for more information.\n");
+            exit(1);
+        }
+        else // assume a file name, but only if one isn't already populated
+        {
+            if (input_file_name == NULL)
+                input_file_name = arg;
+        }
     }
 }
 
